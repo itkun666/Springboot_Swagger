@@ -1,0 +1,14 @@
+package com.dtyunxi;
+
+import java.util.List;
+
+import org.junit.Test;
+
+public class Demo {
+	public List<Integer> list = Lists.newArrayList(1,2,3,4,5,6,7,8,9,10);
+	@Test
+	public void Demo1(){
+		
+	}
+
+}

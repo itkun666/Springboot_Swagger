@@ -1,0 +1,180 @@
+package com.dtyunxi.nuskin.tw.personaloffer.web.controller;
+import com.alibaba.fastjson.JSON;
+import com.dtyunxi.nuskin.tw.center.member.dto.WebPOUserDto;
+import com.dtyunxi.nuskin.tw.center.member.eo.WebMemberEo;
+import com.dtyunxi.nuskin.tw.center.trade.dto.base.SalesSlipQueryDto;
+import com.dtyunxi.nuskin.tw.center.trade.dto.request.SalesSlipDto;
+import com.dtyunxi.nuskin.tw.personaloffer.biz.manager.SalesSlipManager;
+import com.dtyunxi.nuskin.tw.personaloffer.biz.manager.UserManager;
+import com.dtyunxi.nuskin.tw.personaloffer.web.constants.JsonDataConstants;
+import com.dtyunxi.nuskin.tw.personaloffer.web.model.JsonData;
+import com.dtyunxi.rest.RestResponse;
+import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.*;
+
+/**
+ * @Auther: dai.jianhui
+ * @Date: 2018/3/26 17:21
+ * @Description:
+ */
+@RestController
+@RequestMapping("/user")
+@Api(description = "用户登录接口")
+public class UserController {
+	
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	
+	@Autowired
+	private UserManager userManager;
+	
+	@Autowired
+	private SalesSlipManager salesSlipManager;
+	
+    @SuppressWarnings("unchecked")
+	@ApiOperation(value = "用户登录")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public JsonData login(@ApiParam(name = "webPOUserDto") @RequestBody WebPOUserDto webPOUserDto) {
+    	if(StringUtils.isAnyEmpty(webPOUserDto.getUserName(), webPOUserDto.getPassword())) {
+    		log.info("用户登录信息参数有误:userName: {}, password: {}" , webPOUserDto.getUserName(), webPOUserDto.getPassword());
+    		 return JsonData.errorResponse(JsonDataConstants.ERROR_RESPONSE_CODE, "傳入參數有誤", null);
+    	}
+    	RestResponse restResponse = userManager.login(webPOUserDto);
+    	log.info("登录调用中台返回结果: {}", JSON.toJSONString(restResponse));
+    	if(JsonDataConstants.ERROR_RESPONSE_CODE.equals(String.valueOf(restResponse.getResultCode()))) {
+    		return JsonData.errorResponse(JsonDataConstants.ERROR_RESPONSE_CODE, restResponse.getResultMsg(), null);
+    	}
+        return JsonData.successResponse(JsonDataConstants.SUCCESS_RESPONSE_CODE, "登陸成功",(Map<String,Object>) restResponse.getData());
+    }
+
+    @ApiOperation(value = "登出")
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public JsonData logout(HttpServletRequest request) {
+    	String token = request.getHeader("auth");
+    	if(StringUtils.isEmpty(token)) {
+    		 return JsonData.successResponse(JsonDataConstants.SUCCESS_RESPONSE_CODE, "成功", null);
+    	}
+    	RestResponse restResponse = userManager.logout(token);
+		log.info("登出调用中台返回结果: {}", JSON.toJSONString(restResponse));
+        return JsonData.successResponse(JsonDataConstants.SUCCESS_RESPONSE_CODE, "成功", null);
+    }
+
+    @ApiOperation(value = "用户信息")
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public JsonData userInfo(HttpServletRequest request) {
+    	String token = request.getHeader("auth");
+    	RestResponse memberResponse = userManager.getMemberInfoByToken(token);
+    	log.info("用户信息根据token查询用户信息返回结果: {}", JSON.toJSONString(memberResponse));
+    	if(JsonDataConstants.ERROR_RESPONSE_CODE.equals(String.valueOf(memberResponse.getResultCode()))) {
+			return JsonData.successResponse(JsonDataConstants.ERROR_RESPONSE_CODE, memberResponse.getResultMsg(), null);
+		}
+    	WebMemberEo webMemberEo = (WebMemberEo)memberResponse.getData();
+//		BeanUtils.copyProperties(memberResponse.getData(), webMemberEo);
+		SalesSlipQueryDto salesSlipQueryDto = new SalesSlipQueryDto();
+		salesSlipQueryDto.setUserIds(Arrays.asList(webMemberEo.getMemberId()));
+		salesSlipQueryDto.setAllFlag(true);
+		PageInfo<SalesSlipDto> SalesSlipDtoInfo = salesSlipManager.querySalesSlipByQueruKey(salesSlipQueryDto);
+		List<SalesSlipDto> SalesSlipDtoList =SalesSlipDtoInfo.getList();
+		List<SalesSlipDto> recentTwoSalesSlipList=new ArrayList<>();
+		if(!CollectionUtils.isEmpty(SalesSlipDtoList)) {
+			if (SalesSlipDtoList.size() == 1) {
+				recentTwoSalesSlipList = SalesSlipDtoList.subList(0, 1);
+			}
+			if (SalesSlipDtoList.size() >= 2) {
+				recentTwoSalesSlipList = SalesSlipDtoList.subList(0, 2);
+			}
+		}
+		Integer salesSlipCount = CollectionUtils.isEmpty(SalesSlipDtoList)?0:SalesSlipDtoList.size();
+        Integer shareCount = 0;
+        Integer orderCount = 0;
+        BigDecimal totalMoney = BigDecimal.ZERO;
+        if (!CollectionUtils.isEmpty(SalesSlipDtoList)) {
+            for (SalesSlipDto salesSlip : SalesSlipDtoList) {
+                shareCount += salesSlip.getShareCount();
+                orderCount += salesSlip.getOrderCount();
+                totalMoney = totalMoney.add(salesSlip.getCumulativeMoney());
+            }
+        }
+    	Map<String, Object>bodyMap = new HashMap<String, Object>();
+    	bodyMap.put("headImgUrl", webMemberEo.getHeadImgUrl());
+    	bodyMap.put("nickName", webMemberEo.getNickName());
+    	bodyMap.put("salesSlipCount", salesSlipCount);
+    	bodyMap.put("shareCount", shareCount);
+    	bodyMap.put("orderCount", orderCount);
+    	bodyMap.put("totalMoney", totalMoney);
+    	bodyMap.put("latestSalesSlips", recentTwoSalesSlipList);
+//    	bodyMap.put("salesSlipCount", 666);
+//    	bodyMap.put("shareCount", 666);
+//    	bodyMap.put("orderCount", 666);
+//    	bodyMap.put("totalMoney", 666);
+//    	bodyMap.put("latestSalesSlipDtoInfo", latestSalesSlipDtoInfo);
+        return JsonData.successResponse(JsonDataConstants.SUCCESS_RESPONSE_CODE, "成功", bodyMap);
+    }
+    @ApiOperation(value = "修改用户头像")
+    @RequestMapping(value = "/updateHeadImg", method = RequestMethod.POST)
+    public JsonData updateHeadImg(@ApiParam(name = "headImg") @RequestBody String  headImg, HttpServletRequest request) {
+    	String token = request.getHeader("auth");
+    	if(StringUtils.isAnyEmpty(token, headImg)){
+    		 return JsonData.errorResponse(JsonDataConstants.ERROR_RESPONSE_CODE, "auth参数缺失", null);
+    	}
+    	String headImgUrl  = "";
+    	try {
+    		headImgUrl = ((Map<String,String>)JSON.parse(headImg)).get("headImg");
+    	} catch (Exception e){
+    		log.error("修改用户头像Json转Map 失败:{}", e.getMessage());
+    		return JsonData.errorResponse(JsonDataConstants.ERROR_RESPONSE_CODE, "參數格式有誤", null);
+    	}
+    	RestResponse memberInfoResponse = userManager.getMemberInfoByToken(token);
+    	log.info("修改用户头像根据token查询用户信息返回结果: {}", JSON.toJSONString(memberInfoResponse));
+    	WebMemberEo webMemberEo = (WebMemberEo)memberInfoResponse.getData();
+    	if(Objects.isNull(memberInfoResponse.getData())) {
+    		return JsonData.errorResponse(JsonDataConstants.ERROR_RESPONSE_CODE, "您還沒有登陸", null);
+    	}
+    	 WebMemberEo webMemberEo = null;
+    	if(JsonDataConstants.SUCCESS_RESPONSE_CODE.equals(String.valueOf(memberInfoResponse.getResultCode()))){
+    			webMemberEo = (WebMemberEo)memberInfoResponse.getData();
+    	}
+    	webMemberEo.setHeadImgUrl(headImgUrl);
+    	userManager.updateMember(webMemberEo);
+    	Map<String, Object> bodyMap = new HashMap<String, Object>();
+    	bodyMap.put("headImg", headImgUrl);
+        return JsonData.successResponse(JsonDataConstants.SUCCESS_RESPONSE_CODE, "修改成功",  bodyMap);
+         }
+
+    @ApiOperation(value = "修改用户昵称")
+    @RequestMapping(value = "/updateNickName", method = RequestMethod.GET)
+    public JsonData updateNickName(@ApiParam(name = "nickName") @RequestParam("nickName") String nickName, HttpServletRequest request) {
+    	String token = request.getHeader("auth");
+    	if (StringUtils.isAnyEmpty(token, nickName)) {
+    		 return JsonData.errorResponse(JsonDataConstants.ERROR_RESPONSE_CODE, "您還沒有登陸", null);
+    	} 
+    	RestResponse memberInfoResponse = userManager.getMemberInfoByToken(token);
+    	log.info("修改用户昵称根据token查询用户信息返回结果: {}", JSON.toJSONString(memberInfoResponse));
+    	if(Objects.isNull(memberInfoResponse.getData())) {
+    		 return JsonData.errorResponse(JsonDataConstants.ERROR_RESPONSE_CODE, "用戶還沒有登陸", null);
+    	}
+    	WebMemberEo webMemberEo = null;
+    	if(JsonDataConstants.SUCCESS_RESPONSE_CODE.equals(String.valueOf(memberInfoResponse.getResultCode()))){
+			webMemberEo = (WebMemberEo)memberInfoResponse.getData();
+    	}
+    	RestResponse restResponse = userManager.checkNickName(nickName, webMemberEo.getMemberId());
+    	if(!JsonDataConstants.SUCCESS_RESPONSE_CODE.equals(String.valueOf(restResponse.getResultCode()))) {
+    		 return JsonData.errorResponse(JsonDataConstants.ERROR_RESPONSE_CODE, "昵稱已經被占用", null);
+    	}
+    	userManager.updateNickName(nickName, webMemberEo.getMemberId());
+        return JsonData.successResponse(JsonDataConstants.SUCCESS_RESPONSE_CODE, "修改成功", null);
+    }
+
+}

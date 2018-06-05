@@ -1,0 +1,13 @@
+
+Fsquid:S1481P"*Remove this unused "count" local variable.(ί£ινωÿÿÿÿ
+Tsquid:S1854R"8Remove this useless assignment to local variable "body".(‚οέώÿÿÿÿ
+Usquid:S1854Q">Remove this useless assignment to local variable "totalMoney".(Βώσ
+Usquid:S1155T">Use isEmpty() to check whether the collection is empty or not.(Λ¨…
+Fsquid:S1481Q"/Remove this unused "totalMoney" local variable.(Βώσ
+csquid:UselessImportCheck	":Remove this unused import 'com.dtyunxi.rest.RestResponse'.(΄‚―“ÿÿÿÿÿ
+Lsquid:S1481N"0Remove this unused "salesSlipId" local variable.(ή”Ϋψÿÿÿÿ
+hsquid:UselessImportCheck"ERemove this unused import 'org.springframework.util.CollectionUtils'.(εε…K
+bsquid:CommentedOutCodeLineG"<This block of commented-out lines of code should be removed.(Γι‰ς
+Esquid:S1481R")Remove this unused "body" local variable.(‚οέώÿÿÿÿ
+Usquid:S1854P"9Remove this useless assignment to local variable "count".(ί£ινωÿÿÿÿ
+[squid:S1854N"?Remove this useless assignment to local variable "salesSlipId".(ή”Ϋψÿÿÿÿ

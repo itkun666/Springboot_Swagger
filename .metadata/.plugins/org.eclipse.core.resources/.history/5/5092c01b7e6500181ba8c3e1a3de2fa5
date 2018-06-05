@@ -1,0 +1,165 @@
+package com.dtyunxi.nuskin.tw.personaloffer.web.controller;
+
+import com.alibaba.fastjson.JSON;
+import com.dtyunxi.nuskin.tw.center.trade.dto.base.PackageData;
+import com.dtyunxi.nuskin.tw.center.trade.dto.request.*;
+import com.dtyunxi.nuskin.tw.center.trade.dto.response.*;
+import com.dtyunxi.nuskin.tw.personaloffer.biz.manager.TradeManager;
+import com.dtyunxi.nuskin.tw.personaloffer.web.model.CreditCardData;
+import com.dtyunxi.rest.RestResponse;
+import com.dtyunxi.nuskin.tw.personaloffer.web.model.JsonData;
+import com.dtyunxi.nuskin.tw.personaloffer.web.model.PurchaseData;
+import com.dtyunxi.nuskin.tw.personaloffer.web.model.ReceiverData;
+import com.dtyunxi.yundt.center.trade.constant.ConfigConstant;
+import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Auther: dai.jianhui
+ * @Date: 2018/3/22 13:43
+ * @Description:
+ */
+@RestController
+@RequestMapping("/order")
+@Api(description = "订单相关接口")
+public class OrderController {
+
+//    @Autowired
+    private TradeManager tradeManager;
+
+
+    @ApiOperation(value = "销售单转化成订单信息(pc)")
+    @RequestMapping(value = "successfulOrderDetail", method = RequestMethod.GET)
+    public JsonData queryInfo(@ApiParam(name = "salesSlipId") @RequestParam(value = "salesSlipId") Long salesSlipId,
+                              @ApiParam(name = "pageNum") @RequestParam(name = "pageNum") Integer pageNum,
+                              @ApiParam(name = "pageSize") @RequestParam(name = "pageSize") Integer pageSize) {
+
+        PageInfo<AggAppManagerOrdersRespDto> aggAppManagerOrdersRespDtoPage =  tradeManager.queryOrderListBySalesSlipId(salesSlipId,pageSize,pageNum);
+        if(aggAppManagerOrdersRespDtoPage==null){
+            return JsonData.errorResponse("-1","失败",null);
+        }
+        Map<String,Object> body = new HashMap<>();
+        body.put("orderPage",aggAppManagerOrdersRespDtoPage);
+        return JsonData.successResponse("0","成功",body);
+    }
+
+    @ApiOperation(value = "订单信息")
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public JsonData queryInfo(@ApiParam(name = "orderId") @RequestParam(value = "orderId") Long orderId) {
+        AggAppOrderDetailRespDto aggAppOrderDetailRespDto = tradeManager.queryOrderDetail(orderId);
+        if(aggAppOrderDetailRespDto==null){
+            return JsonData.errorResponse("-1","失败",null);
+        }
+        Map<String,Object> body = new HashMap<>();
+        body.put("order",aggAppOrderDetailRespDto);
+        return JsonData.successResponse("0","成功",body);
+    }
+
+
+//    @ApiOperation(value = "用户最近一次的订单记录")
+//    @RequestMapping(value = "latestOrder", method = RequestMethod.GET)
+//    public JsonData queryLatestOrder(@ApiParam(name = "phone") @RequestParam(name = "phone") String phone) {
+//        return JsonData.successResponse("0","成功",null);
+//    }
+
+    @ApiOperation(value = "用户购买产品")
+    @RequestMapping(value = "purchase", method = RequestMethod.POST)
+    public JsonData buyProducts(@ApiParam(name = "purchaseData") @RequestBody PurchaseData purchaseData) {
+        Long salesSlipId = purchaseData.getSalesSlipId();
+        String products = purchaseData.getProducts();
+        Integer count = purchaseData.getCount();
+        Double totalMoney = purchaseData.getTotalMoney();
+        Map<String, Object> body = new HashMap<>();
+        List<PackageData> packageDatas = JSON.parseArray(products, PackageData.class);
+        if (packageDatas == null || packageDatas.size() == 0) {
+            return JsonData.errorResponse("0","产品信息为空",null);
+        }
+        List<TradeOrderSettletMentReqDto> tradeOrderSettletMentReqDtos = new ArrayList<>();
+        TradeOrderSettletMentReqDto tradeOrderSettletMentReqDto = new TradeOrderSettletMentReqDto();
+        for (PackageData packageData : packageDatas){
+            tradeOrderSettletMentReqDto.setItemId(packageData.getId());
+            tradeOrderSettletMentReqDto.setQuantity(packageData.getProductCount());
+            tradeOrderSettletMentReqDtos.add(tradeOrderSettletMentReqDto);
+        }
+        AggOrderSettleMentRespDto aggOrderSettleMentRespDto = tradeManager.queryTradeSettleMentResp(tradeOrderSettletMentReqDtos);
+        return JsonData.successResponse("0","成功",null);
+    }
+
+    @ApiOperation(value = "确认订单信息")
+    @RequestMapping(value = "orderConfirm", method = RequestMethod.POST)
+    public JsonData confirmOrder(@ApiParam(name = "receiverData") @RequestBody ReceiverData receiverData) {
+
+        List<TradeOrderItemReqDto> orderItems= new ArrayList<>(); //商品明细表
+        List<PackageData> packageDatas = JSON.parseArray(receiverData.getProducts(), PackageData.class);
+        TradeOrderItemReqDto tradeOrderItemReqDto = new TradeOrderItemReqDto();
+        for(PackageData packageData : packageDatas){
+            tradeOrderItemReqDto.setItemId(packageData.getId());
+            tradeOrderItemReqDto.setItemNum(packageData.getProductCount());
+            orderItems.add(tradeOrderItemReqDto);
+        }
+
+        TradeOrderInvoiceReqDto orderInvoice = new TradeOrderInvoiceReqDto(); //发票明细
+        orderInvoice.setInvoiceType(1);
+        orderInvoice.setAddress(receiverData.getAddress());
+        orderInvoice.setInvoiceTitleType(ConfigConstant.ORDER_INVOICE_TITLE_TYPE_PERSONAL);
+        orderInvoice.setDeliveryName(receiverData.getDeliveryName());
+        orderInvoice.setProvinceCode(receiverData.getProvinceCode());
+        orderInvoice.setCityCode(receiverData.getCityCode());
+        orderInvoice.setAreaCode(receiverData.getAreaCode());
+
+        TradeOrderDeliveryReqDto orderSend = new TradeOrderDeliveryReqDto(); //订单发货信息
+        orderSend.setDeliveryName(receiverData.getReceiver());
+        orderSend.setAddress(receiverData.getReceiveAddress());
+        orderSend.setDeliveryMobile(receiverData.getPhone());
+        orderSend.setDeliveryEmail(receiverData.getEmail());
+
+        TradeOrderOrderReqDto orderBase = new TradeOrderOrderReqDto();
+        orderBase.setSalesSlipId(receiverData.getSalesSlipId());
+
+        AppTradeOrdersSubmitReqDto reqDto = new AppTradeOrdersSubmitReqDto();
+        //将订单下单信息转为下单信息实体
+        List<AppTradeSingleOrderSubmitReqDto> orderList = new ArrayList<>();
+        AppTradeSingleOrderSubmitReqDto appTradeSingleOrderSubmitReqDto = new AppTradeSingleOrderSubmitReqDto();
+        appTradeSingleOrderSubmitReqDto.setOrderItems(orderItems);
+        appTradeSingleOrderSubmitReqDto.setOrderSend(orderSend);
+        appTradeSingleOrderSubmitReqDto.setOrderInvoice(orderInvoice);
+        appTradeSingleOrderSubmitReqDto.setOrderBase(orderBase);//-----------
+        orderList.add(appTradeSingleOrderSubmitReqDto);
+        reqDto.setOrders(orderList);
+        AppToPayOrderRespDto appToPayOrderRespDto = tradeManager.submitOrder(reqDto);
+        if(appToPayOrderRespDto==null){
+            return JsonData.errorResponse("-1","失败",null);
+        }
+        Map<String,Object> body = new HashMap<>();
+        body.put("newOrder",appToPayOrderRespDto);
+        return JsonData.successResponse("0","成功",body);
+    }
+
+    @ApiOperation(value = "订单支付")
+    @RequestMapping(value = "orderPayment", method = RequestMethod.POST)
+    public JsonData orderPayment(@ApiParam(name = "creditCardData") @RequestBody CreditCardData creditCardData) {
+        return JsonData.successResponse("0","成功",null);
+    }
+
+
+    @ApiOperation(value = "根据手机号查询收货地址详情")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public JsonData list(@ApiParam(name = "phone") @RequestParam(name = "phone") String phone) {
+        List<AggGroupAddressRespDto> aggGroupAddressRespDtoList = tradeManager.queryReceiveAddressByMobile(phone);
+        Map<String,Object> body = new HashMap<>();
+        body.put("receiveDatas",aggGroupAddressRespDtoList);
+        return JsonData.successResponse("0","成功",body);
+    }
+
+
+}

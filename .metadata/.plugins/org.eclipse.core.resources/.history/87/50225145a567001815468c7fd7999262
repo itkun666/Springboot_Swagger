@@ -1,0 +1,19 @@
+#common Configuration
+
+jdbc.driverClass = com.mysql.jdbc.Driver
+jdbc.maxActive = 2335
+jdbc.maxIdel = 120
+jdbc.maxWait = 100
+jdbc.removeAbandoned = true
+jdbc.removeAbandonedTimeout = 180
+jdbc.logAbandoned = true
+jdbc.timeBetweenEvictionRunsMillis = 3600000
+jdbc.minEvictableIdleTimeMillis = 3600000
+jdbc.defaultAutoCommit = true
+jdbc.validationQuery = SELECT 1
+jdbc.testOnBorrow = true
+
+spring.profiles.active = dev
+server.port=8091
+
+pagesize.max.message=ÿҳ��ʾ�������������{value}

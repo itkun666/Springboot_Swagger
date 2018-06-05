@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+    <workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory"
+                id="1527837249527_1" label="personal-offer" name="personal-offer">
+        <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/personal-offer-facade" type="4"/>
+        <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/personal-offer-web" type="4"/>
+        <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/personal-offer-client" type="4"/>
+        <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/personal-offer-dal" type="4"/>
+        <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/personal-offer-biz" type="4"/>
+        <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/personal-offer" type="4"/>
+        <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/personal-offer-external" type="4"/>
+        <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/personal-offer-utils" type="4"/>
+    </workingSet>
+    <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1527836020618_0"
+                label="Window Working Set" name="Aggregate for window 1527836020618"/>
+</workingSetManager>

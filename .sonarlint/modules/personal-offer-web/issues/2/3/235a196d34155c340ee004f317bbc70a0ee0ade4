@@ -1,0 +1,7 @@
+
+Vsquid:S00107£"=Method has 11 parameters, which is greater than 7 authorized.(¥ˆ€Þ
+csquid:S1192Œ"KDefine a constant instead of duplicating this literal "salesSlips" 3 times.(ˆ‘¿
+Usquid:S1155;">Use isEmpty() to check whether the collection is empty or not.(Ë¨…Œ
+csquid:CommentedOutCodeLineî"<This block of commented-out lines of code should be removed.(‡ú¨³
+csquid:UnusedPrivateMethodŠ"8Remove this unused private "generateSalesSlipNo" method.(¬ŒÒ‡øÿÿÿÿ
+usquid:S11928"YDefine a constant instead of duplicating this literal "ç”¨æˆ¶ä¿¡æ¯ä¸å­˜åœ¨ï¼" 4 times.(§¿ñÿÿÿÿÿ

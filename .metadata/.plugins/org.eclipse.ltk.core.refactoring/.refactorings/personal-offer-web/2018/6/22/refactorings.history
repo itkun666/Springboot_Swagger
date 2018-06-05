@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extract local variable &apos;cumulativeMoney&apos; from expression &apos;salesSlip.getCumulativeMoney()&apos;&#x0D;&#x0A;- Original project: &apos;personal-offer-web&apos;&#x0D;&#x0A;- Variable name: &apos;cumulativeMoney&apos;&#x0D;&#x0A;- Destination method: &apos;com.dtyunxi.nuskin.tw.personaloffer.web.controller.UserController.userInfo()&apos;&#x0D;&#x0A;- Variable expression: &apos;salesSlip.getCumulativeMoney()&apos;&#x0D;&#x0A;- Replace occurrences of expression with variable" description="Extract local variable &apos;cumulativeMoney&apos;" final="false" id="org.eclipse.jdt.ui.extract.temp" input="/src\/main\/java&lt;com.dtyunxi.nuskin.tw.personaloffer.web.controller{UserController.java" name="cumulativeMoney" replace="true" selection="6194 0" stamp="1527844991799" version="1.0"/>
+</session>

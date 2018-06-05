@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+    <item value="2" key="org.eclipse.egit.ui.internal.clone.GitSelectWizardPageWizardSel"/>
+    <item value="D:\nuskin_git\personal-offer\.git" key="GitSelectRepositoryPage.lastRepository"/>
+    <list key="EGit.KnownHosts">
+        <item value="bitbucket.org"/>
+        <item value="github.com"/>
+        <item value="git.eclipse.org"/>
+        <item value="gogs.dtyunxi.cn"/>
+    </list>
+    <list key="RepositorySelectionPage.UsedUris">
+        <item value="172.16.110.133:8091/api/v1/nuskin/trade/mall/user/updateHeadImg"/>
+        <item value="https://github.com/spring-projects/spring-framework.git"/>
+        <item value="https://gogs.dtyunxi.cn/nuskin-taiwan/personal-offer.git"/>
+    </list>
+    <list key="CommitDialog.authorValues">
+        <item value="15229 &lt;15229@192.168.6.72&gt;"/>
+        <item value="15229 &lt;15229@xuantong&gt;"/>
+        <item value="15229 &lt;15229@LAPTOP-E5VIINEJ&gt;"/>
+    </list>
+    <list key="CommitDialog.committerValues">
+        <item value="15229 &lt;15229@192.168.6.72&gt;"/>
+        <item value="15229 &lt;15229@xuantong&gt;"/>
+        <item value="15229 &lt;15229@LAPTOP-E5VIINEJ&gt;"/>
+    </list>
+    <section name="GitImportWizard">
+    </section>
+    <section name="org.eclipse.egit.ui.internal.push.PushResultDialog.dialogBounds">
+        <item value="666" key="DIALOG_WIDTH"/>
+        <item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI"
+              key="DIALOG_FONT_NAME"/>
+        <item value="464" key="DIALOG_HEIGHT"/>
+        <item value="358" key="DIALOG_X_ORIGIN"/>
+        <item value="63" key="DIALOG_Y_ORIGIN"/>
+        <list key="sashWeights">
+            <item value="600"/>
+            <item value="400"/>
+        </list>
+    </section>
+    <section name="org.eclipse.egit.ui.internal.pull.PullResultDialog.dialogBounds">
+        <item value="930" key="DIALOG_WIDTH"/>
+        <item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI"
+              key="DIALOG_FONT_NAME"/>
+        <item value="420" key="DIALOG_HEIGHT"/>
+        <item value="444" key="DIALOG_X_ORIGIN"/>
+        <item value="236" key="DIALOG_Y_ORIGIN"/>
+    </section>
+    <section name="org.eclipse.egit.ui.internal.dialogs.CheckoutDialog.dialogBounds">
+        <item value="538" key="DIALOG_WIDTH"/>
+        <item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|5|0|Microsoft YaHei UI"
+              key="DIALOG_FONT_NAME"/>
+        <item value="497" key="DIALOG_HEIGHT"/>
+        <item value="422" key="DIALOG_X_ORIGIN"/>
+        <item value="41" key="DIALOG_Y_ORIGIN"/>
+    </section>
+    <section name="GitCommitMessageComponent">
+    </section>
+    <section name="org.eclipse.egit.ui.internal.staging.StagingView">
+        <item value="500,500" key="STAGING_SASH_FORM_WEIGHT"/>
+        <item value="false" key="sortItemState"/>
+        <item value="500,500" key="HORIZONTAL_SASH_FORM_WEIGHT"/>
+    </section>
+</section>

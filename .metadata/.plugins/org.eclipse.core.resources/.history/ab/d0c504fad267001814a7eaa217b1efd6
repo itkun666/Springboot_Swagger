@@ -1,0 +1,24 @@
+package com.dtyunxi.nuskin.tw.personaloffer;
+
+
+import com.taobao.pandora.boot.PandoraBootstrap;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * 
+ * @author Croky.Zheng
+ * 2017年3月6日
+ */
+//@EnableAutoConfiguration //(exclude={DataSourceAutoConfiguration.class})
+//@ComponentScan
+//@ImportResource
+//@Configuration
+@SpringBootApplication
+public class SpringBootMain {
+	public static void main(String[] args)  {
+		PandoraBootstrap.run(args);
+		SpringApplication.run(SpringBootMain.class, args);
+		PandoraBootstrap.markStartupAndWait();
+	}
+}

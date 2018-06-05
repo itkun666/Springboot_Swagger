@@ -1,0 +1,13 @@
+
+Bsquid:S1168L"+Return an empty collection instead of null.(¥¹ï
+squid:S1488›"pImmediately return this expression instead of assigning it to the temporary variable "cargoStorageCountDtoList".(íİÛëøÿÿÿÿ
+bsquid:CommentedOutCodeLinem"<This block of commented-out lines of code should be removed.(²Îôº
+d
+squid:S134z"NRefactor this code to not nest more than 3 if/for/while/switch/try statements.(·ã´ı
+˜ squid:MethodCyclomaticComplexityP"gThe Cyclomatic Complexity of this method "getProductsByPage" is 13 which is greater than 10 authorized.(£ğ„…ÿÿÿÿÿ
+i
+squid:S134@"NRefactor this code to not nest more than 3 if/for/while/switch/try statements.(³Á³­ÿÿÿÿÿ
+¥squid:S2293R"Replace the type specification in this constructor call with the diamond operator ("<>"). (sonar.java.source not set. Assuming 7 or greater.)(¼Ã¥ß
+Csquid:S1168"+Return an empty collection instead of null.(¥¹ï
+i
+squid:S134r"NRefactor this code to not nest more than 3 if/for/while/switch/try statements.(¬¦„‰ùÿÿÿÿ

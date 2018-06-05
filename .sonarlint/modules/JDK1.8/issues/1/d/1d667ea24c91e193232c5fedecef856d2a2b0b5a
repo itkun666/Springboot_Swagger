@@ -1,0 +1,18 @@
+
+±squid:S2293"Replace the type specification in this constructor call with the diamond operator ("<>"). (sonar.java.source not set. Assuming 7 or greater.)(½áØÔùÿÿÿÿ8‰”†ï¼,
+Hsquid:S1481"*Remove this unused "list2" local variable.(›¬‹8Ù¬ˆï¼,
+rsquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÁéºıÿÿÿÿ8¤»„ï¼,
+]
+squid:S106";Replace this usage of System.out or System.err by a logger.(Îÿ±«ùÿÿÿÿ8Œ¹Ñ¼,
+rsquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öûÕ†úÿÿÿÿ8»´Ñ¼,
+~squid:S1612"`Replace this lambda with a method reference. (sonar.java.source not set. Assuming 8 or greater.)(†Ÿ–ì8ŠÛªÑ¼,
+Wsquid:S1854"9Remove this useless assignment to local variable "list2".(›¬‹8Ù¬ˆï¼,
+]
+squid:S106";Replace this usage of System.out or System.err by a logger.(Îÿ±«ùÿÿÿÿ8„ÜÃÑ¼,
+Š"squid:ClassVariableVisibilityCheck
+"PMake list a static final constant or non-public and provide accessors if needed.(õÆ°×øÿÿÿÿ8ÔÅœÑ¼,
+msquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Íê¢8ˆ¨›Ñ¼,
+isquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¤‰öš8ÒèªÑ¼,
+fsquid:HiddenFieldCheck"8Rename "list" which hides the field declared at line 10.(½áØÔùÿÿÿÿ8‰”†ï¼,
+X
+squid:S106";Replace this usage of System.out or System.err by a logger.(†Ÿ–ì8ŠÛªÑ¼,

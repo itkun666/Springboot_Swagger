@@ -1,0 +1,147 @@
+package com.dtyunxi.nuskin.tw.personaloffer.external.model;
+
+import java.util.Date;
+
+/**
+ * @Auther: dai.jianhui
+ * @Date: 2018/3/30 17:09
+ * @Description:
+ */
+public class WebMember {
+
+    private String memberId;
+    private Integer memberTypeCd;
+    private String memberName;
+    private String memberPassword;
+    private String memberEmail;
+    private String phoneNumber;
+    private String sellingDistId;
+    private Integer memberStatusCd;
+    private Date createDtm;
+    private Date lastLoginDtm;
+    private Date mobileLastLoginDtm;
+    private String verificationCode;
+    private Date verificationDtm;
+    private String nickName;
+    private String headImgUrl;
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    public Integer getMemberTypeCd() {
+        return memberTypeCd;
+    }
+
+    public void setMemberTypeCd(Integer memberTypeCd) {
+        this.memberTypeCd = memberTypeCd;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public String getMemberPassword() {
+        return memberPassword;
+    }
+
+    public void setMemberPassword(String memberPassword) {
+        this.memberPassword = memberPassword;
+    }
+
+    public String getMemberEmail() {
+        return memberEmail;
+    }
+
+    public void setMemberEmail(String memberEmail) {
+        this.memberEmail = memberEmail;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getSellingDistId() {
+        return sellingDistId;
+    }
+
+    public void setSellingDistId(String sellingDistId) {
+        this.sellingDistId = sellingDistId;
+    }
+
+    public Integer getMemberStatusCd() {
+        return memberStatusCd;
+    }
+
+    public void setMemberStatusCd(Integer memberStatusCd) {
+        this.memberStatusCd = memberStatusCd;
+    }
+
+    public Date getCreateDtm() {
+        return createDtm;
+    }
+
+    public void setCreateDtm(Date createDtm) {
+        this.createDtm = createDtm;
+    }
+
+    public Date getLastLoginDtm() {
+        return lastLoginDtm;
+    }
+
+    public void setLastLoginDtm(Date lastLoginDtm) {
+        this.lastLoginDtm = lastLoginDtm;
+    }
+
+    public Date getMobileLastLoginDtm() {
+        return mobileLastLoginDtm;
+    }
+
+    public void setMobileLastLoginDtm(Date mobileLastLoginDtm) {
+        this.mobileLastLoginDtm = mobileLastLoginDtm;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public Date getVerificationDtm() {
+        return verificationDtm;
+    }
+
+    public void setVerificationDtm(Date verificationDtm) {
+        this.verificationDtm = verificationDtm;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getHeadImgUrl() {
+        return headImgUrl;
+    }
+
+    public void setHeadImgUrl(String headImgUrl) {
+        this.headImgUrl = headImgUrl;
+    }
+}

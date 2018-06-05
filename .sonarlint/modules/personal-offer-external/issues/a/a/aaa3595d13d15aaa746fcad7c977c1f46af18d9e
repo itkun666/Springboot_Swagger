@@ -1,0 +1,15 @@
+
+Xsquid:S1191"<Replace this usage of Sun classes by ones from the Java API.(áÏ¸ıÿÿÿÿ
+¥squid:S2293j"Replace the type specification in this constructor call with the diamond operator ("<>"). (sonar.java.source not set. Assuming 7 or greater.)(ªÃ°
+gsquid:CommentedOutCodeLineJ"<This block of commented-out lines of code should be removed.(å ¬¨øÿÿÿÿ
+Fsquid:S11726"*Remove this unused method parameter "aaa".(ğËÇÌøÿÿÿÿ
+<squid:S11660"%Either log or rethrow this exception.(”ı¾
+<squid:S1166:"%Either log or rethrow this exception.(”ı¾
+<squid:S1166D"%Either log or rethrow this exception.(”ı¾
+<squid:S1166X"%Either log or rethrow this exception.(”ı¾
+<squid:S1166b"%Either log or rethrow this exception.(”ı¾
+<squid:S1166m"%Either log or rethrow this exception.(”ı¾
+<squid:S1166w"%Either log or rethrow this exception.(”ı¾
+Ysquid:UselessImportCheck"6Remove this unused import 'com.alibaba.fastjson.JSON'.(Ö¢å$
+usquid:UselessImportCheck"LRemove this unused import 'com.sun.org.apache.bcel.internal.generic.RETURN'.(áÏ¸ıÿÿÿÿ
+?squid:S1148c"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ

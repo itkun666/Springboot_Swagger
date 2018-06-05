@@ -1,0 +1,8 @@
+
+­squid:S2293‘"Replace the type specification in this constructor call with the diamond operator ("<>"). (sonar.java.source not set. Assuming 7 or greater.)(•£¾Ä8Æ´äÊ¼,
+ksquid:UselessImportCheck"@Remove this unused import 'org.springframework.beans.BeanUtils'.(ŠğÄÜ8¿™ÿî¼,
+isquid:CommentedOutCodeLinet"<This block of commented-out lines of code should be removed.(Â¼¤Û8ÊüÒÔ»,
+¥squid:S2293l"Replace the type specification in this constructor call with the diamond operator ("<>"). (sonar.java.source not set. Assuming 7 or greater.)(•£¾Ä
+zsquid:S00117X"VRename this local variable name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ë¨Èéıÿÿÿÿ8ìğ˜Ô»,
+zsquid:S00117W"VRename this local variable name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Øœ·Ğøÿÿÿÿ8™ıçÓ»,
+Dsquid:S1166…"%Either log or rethrow this exception.(”ı¾8ˆ„Ò¼,

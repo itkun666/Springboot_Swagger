@@ -1,0 +1,177 @@
+//package com.dtyunxi.nuskin.tw.personaloffer.biz.manager.impl;
+//
+//import com.dtyunxi.nuskin.tw.center.trade.dto.base.SalesSlipOrderQueryDto;
+//import com.dtyunxi.nuskin.tw.center.trade.dto.response.*;
+//import com.dtyunxi.nuskin.tw.personaloffer.biz.manager.TradeManager;
+//import com.dtyunxi.dto.ResponseDto;
+//import com.dtyunxi.nuskin.tw.center.trade.dto.request.*;
+//import com.dtyunxi.nuskin.tw.center.trade.dto.request.base.AppBaseReqDto;
+//import com.dtyunxi.nuskin.tw.personaloffer.external.proxy.TradeServiceProxy;
+//import com.dtyunxi.rest.RestResponse;
+//import com.dtyunxi.yundt.center.trade.constant.ConfigConstant;
+//import com.dtyunxi.yundt.center.trade.exception.TradeBusinessBasicException;
+//import com.github.pagehelper.PageInfo;
+//import org.apache.commons.lang3.StringUtils;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Component;
+//import org.springframework.util.CollectionUtils;
+//
+//import java.util.ArrayList;
+//import java.util.List;
+//
+///**
+// * Created by dai.jianhui on 2018/5/28.
+// */
+//@Component(value="TradeManager")
+//public class TradeManagerImpl implements TradeManager {
+//
+//    @Autowired
+//    private TradeServiceProxy tradeServiceProxy;
+//
+//    @Override
+//    public AppToPayOrderRespDto submitOrder(AppTradeOrdersSubmitReqDto ordersSubmitReqDto) {
+//        //下单人会员id
+////        Long memberId = tradePublicMethod.getMemberId();
+////        Long memberId = 1L;
+//
+//        //校验下单实体不能为空
+//        if (ordersSubmitReqDto == null || CollectionUtils.isEmpty(ordersSubmitReqDto.getOrders())) {
+//            throw new TradeBusinessBasicException(TradeBusinessBasicException.CODE_PARAM_INVALID);
+//        }
+//        //收货地址明细----多个订单收货地址唯一
+//        TradeOrderDeliveryReqDto address = ordersSubmitReqDto.getOrders().get(0).getOrderSend();
+//        //发票明细------多个订单发票唯一，但是在后期处理中发票拆分成多个发票
+//        TradeOrderInvoiceReqDto orderInvoice = ordersSubmitReqDto.getOrders().get(0).getOrderInvoice();
+//
+//        /*** 发票校验 */
+//        if (orderInvoice == null || orderInvoice.getInvoiceTitleType() == null || (orderInvoice.getInvoiceTitleType() != ConfigConstant.ORDER_INVOICE_TITLE_TYPE_PERSONAL
+//                && orderInvoice.getInvoiceTitleType() != ConfigConstant.ORDER_INVOICE_TITLE_TYPE_UNIT)) {
+//            throw new TradeBusinessBasicException(-1, "发票必填(个人或企业)");
+//        }
+//        /*** 配送信息 */
+//        if (address == null || address.getDeliveryId() == null) {
+//            throw new TradeBusinessBasicException(-1, "配送方式为空！");
+//        }
+//        //收货详情地址和常用收货地址ID不能同时为空，为空则为配送地址为空
+//        if(null == address.getAddress() && address.getAddressId() == null){
+//            throw new TradeBusinessBasicException(-1, "配送地址为空！");
+//        }
+//        /*if(TradeOtherStatusNameEnum.deliveryTypeNameEnum.DEFAULT.getCode().equals(address.getDeliveryId())
+//		        && address.getAddressId() == null){
+//		    throw new TradeBusinessBasicException(-1, "配送地址为空！");
+//		}*/
+//
+//        if (address.getDeliveryMobile() == null) {
+//            throw new TradeBusinessBasicException(-1, "收货人手机号为空！");
+//        }
+//        //循环校验各个订单商品信息
+//        for(AppTradeSingleOrderSubmitReqDto orders : ordersSubmitReqDto.getOrders()) {
+//            for (TradeOrderItemReqDto reqDto : orders.getOrderItems()) {
+//                if (reqDto.getItemId() == null) {
+//                    throw new TradeBusinessBasicException(-1, "商品的itemId不能为空！");
+//                }
+//                if (StringUtils.isBlank(reqDto.getItemPointType())) {
+//                    throw new TradeBusinessBasicException(-1, "商品的价格类型不能为空！");
+//                }
+//                if (reqDto.getItemNum() == null) {
+//                    throw new TradeBusinessBasicException(-1, "商品的数量不能为空！");
+//                }
+//            }
+//        }
+//
+//        AppBaseReqDto baseReqDto = new AppBaseReqDto();
+//        AppToPayOrderRespDto orderResult = (AppToPayOrderRespDto)tradeServiceProxy.commonSubmitOrder(ordersSubmitReqDto, baseReqDto).getData();
+//        if (orderResult == null ||orderResult.getResultCode() == -1) {
+//            throw new TradeBusinessBasicException(0, "下单失败！");
+//        }
+//        return orderResult;
+//
+////        return new RestResponse(orderResult);
+//    }
+//
+////    @Override
+////    public RestResponse toPayOrder(Long orderId) {
+////        AppBaseReqDto baseReqDto = new AppBaseReqDto();
+////        //获取会员id
+//////        Long memberId = tradePublicMethod.getMemberId();
+////
+////        //根据订单ID查询订单流水号，并查出所有相关的订单信息集合
+////        // 1、订单信息
+////        AggAppTradeOrderRespDto orderDetail = tradeServiceProxy.queryTrOrderDetail(orderId, null);
+////        String orderPayNo = orderDetail.getTradeOrderPayNo();//系统配置的流水号
+////        //2、根据系统配置的流水号查询所有流水相同的订单集合
+////        List<AggAppTradeOrderRespDto> orderList =  tradeServiceProxy.queryTrOrderListByPayNo(orderPayNo);
+////
+////        //3、得到所有的订单ID，然后根据订单ID集合去合并支付
+////        List<Long> orderIds = new ArrayList<>();
+////        if (!CollectionUtils.isEmpty(orderList)) {
+////            for (AggAppTradeOrderRespDto dto : orderList) {
+////                orderIds.add(dto.getId());
+////            }
+////        }
+////        //4、去进行合并支付
+////        AppToPayOrderRespDto respDto = (AppToPayOrderRespDto)tradeServiceProxy.commonToPayOrders(orderIds, baseReqDto).getData();
+////        return new RestResponse(respDto);
+////    }
+//
+//    @Override
+//    public AggOrderSettleMentRespDto queryTradeSettleMentResp(List<TradeOrderSettletMentReqDto> itemDetails) {
+//        AppBaseReqDto baseReqDto = new AppBaseReqDto();
+//        //Long memberId = tradePublicMethod.getMemberId();//会员id
+//
+//        baseReqDto.setDeliveryId(1l);//当前不考虑自提情况(配送方式ID  1普通快递 2 自提)
+//
+//        for (TradeOrderSettletMentReqDto reqDto : itemDetails) {
+//            if (reqDto.getItemId() == null) {
+//                throw new TradeBusinessBasicException(-1, "商品的itemId不能为空！");
+//            }
+//            if (StringUtils.isBlank(reqDto.getItemPointType())) {
+//                throw new TradeBusinessBasicException(-1, "商品的價格類型不能為空！");
+//            }
+//            if (reqDto.getQuantity() == null) {
+//                throw new TradeBusinessBasicException(-1, "商品的數量不能為空！");
+//            }
+//        }
+//        //校验需要下单的商品数据
+//        ResponseDto<AggOrderSettleMentRespDto> respDto = tradeServiceProxy.queryTradeSettleMentResp(itemDetails, baseReqDto);
+//        AggOrderSettleMentRespDto aggOrderSettleMentRespDto = new AggOrderSettleMentRespDto();
+//        if("success".equalsIgnoreCase(respDto.getResult())){
+//            aggOrderSettleMentRespDto = respDto.getData();
+//        }
+//        return aggOrderSettleMentRespDto;
+//    }
+//
+//    @Override
+//    public AggAppOrderDetailRespDto queryOrderDetail(Long orderId) {
+//        AggAppOrderDetailRespDto aggAppOrderDetailRespDto = new AggAppOrderDetailRespDto();
+//        ResponseDto<AggAppOrderDetailRespDto> responseDto = tradeServiceProxy.queryOrderDetail(orderId);
+//        if("success".equalsIgnoreCase(responseDto.getResult())){
+//            aggAppOrderDetailRespDto = responseDto.getData();
+//        }
+//        return aggAppOrderDetailRespDto;
+//    }
+//
+//    @Override
+//    public List<AggGroupAddressRespDto> queryReceiveAddressByMobile(String mobile) {
+//        List<AggGroupAddressRespDto> aggGroupAddressRespDtoList = new ArrayList<>();
+//        ResponseDto<List<AggGroupAddressRespDto>> responseDto = tradeServiceProxy.queryReceiveAddressByMobile(mobile);
+//        if("success".equalsIgnoreCase(responseDto.getResult())){
+//            aggGroupAddressRespDtoList = responseDto.getData();
+//        }
+//        return aggGroupAddressRespDtoList;
+//    }
+//
+//    @Override
+//    public PageInfo<AggAppManagerOrdersRespDto> queryOrderListBySalesSlipId(Long salesSlipId, Integer pageSize,Integer pageNum) {
+//        PageInfo<AggAppManagerOrdersRespDto> aggAppManagerOrdersRespDto = new PageInfo<>();
+//        SalesSlipOrderQueryDto salesSlipOrderQueryDto = new SalesSlipOrderQueryDto();
+//        salesSlipOrderQueryDto.setSalesSlipId(salesSlipId);
+//        salesSlipOrderQueryDto.setPageSize(pageSize);
+//        salesSlipOrderQueryDto.setPageNum(pageNum);
+//        ResponseDto<PageInfo<AggAppManagerOrdersRespDto>> responseDto = tradeServiceProxy.queryOrderListBySalesSlipId(salesSlipOrderQueryDto);
+//        if("success".equalsIgnoreCase(responseDto.getResult())){
+//            aggAppManagerOrdersRespDto = responseDto.getData();
+//        }
+//        return aggAppManagerOrdersRespDto;
+//    }
+//}
